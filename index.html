@@ -209,6 +209,113 @@
         <!-- /.container -->
     </section>
 
+<!-- Structuring Raw Data -->
+    <section id="rawdata" class="rawdata">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 text-justify">
+                    <h3>STRUCTURING RAW DATA</h3>
+                    <p class="lead">
+                    Armed with a plan, the next best place to start developing a tool is with the data itself. Whether you pull the data yourself out of the DATIM Data Genie or request the data through a SQL pull from someone in the Data Management Group, the data should be structured in a similar manner where you have your observations by row and indicators as your columns. 
+                     <br> <br> 
+                    Figure 1: Raw data structure
+                    <img class = "img-responsive" src="img/RawDataStructure.jpg">
+                     <br> <br> 
+                    Data structure becomes extremely important when working with a tool or visualization that is dynamic or gets updated periodically. Even trying to start the process with fictitious data can be difficult without knowing how the data will be structured; you will likely spend a lot of time rebuilding the formulas within your tool to work with the actual data structure. 
+                     <br> <br> 
+                    When developing a dashboard, there are a number of key indicators you will likely make use of when working with PEPFAR MER data.
+                    <ul>
+                        <li>
+                            orgLevel*Name – Each level of the OU hierarchy is assigned a number starting with 3. The national/regional level starts at orgLevel3Name for all OUs. The organization levels vary country to country, but as you increase on the numeric scale you identify smaller and smaller sub national units (SNU). It’s a good idea to know at what level each OU is setting target at, i.e. their priority level SNU. This information can be found on the <a href="https://datim.zendesk.com/hc/en-us/articles/206855986-GIS-OU-Hierarchy-Guide">DATIM Support page</a>.
+                        </li>
+                        <li>
+                        uidlevel* - UID is the unique identifier used in spatial mapping, but also is good to use to ensure you are not aggregating two different SNUs in different regions , i.e. a country could have two separate districts called Centerville, one located in the North Province and one in the South Province.
+                        </li>
+                        <li>
+                        period – Knowing the time period you are drawing on is a key component of your dataset. It is important to realize that the output from DATIM is reported in calendar year unlike most of the rest of PEPFAR reporting. So, the second quarter of fiscal year 2016 (January to March 2016) would be reported as “2016Q1”. Most of the major indicators are reporting on a quarterly basis, but some are reported only semi-annually or annually. Check out the <a href="https://datim.zendesk.com/hc/en-us/articles/206630535-FY-2015-APR-Guidance-and-MER-Indicator-Quick-Guide">MER Indicator Quick Reference Guide on DATIM Support </a> for more details. This reference guide will also provide you with guidance on how to report indicators at the end of the year, e.g. aggregating all four quarters or taking the fourth quarter’s results. Lastly, if you are working with targets, they are reported once a year. The period for 2016 targets would be recorded as “2015Oct”.
+                        </li>
+                        <li>
+                        dataElementName – This field is a bundle that provides all data element pieces concatenated together: indicator, numeratorDenom, type, disaggregate, resultTarget, categoryOptionComboName. It is often much more useful to use each of the data elements pieces rather than this one that combines them all together
+                        </li>
+                        <li> 
+                        Figure 2: Pieces of the dataElementName
+                        <img class = "img-responsive" src="img/DataElementBreakdown.png">
+                        </li>
+                        <li>
+                        indicator – This element provide which indicator is reported in the line, e.g. HTC_TST, PMTCT_ARV, TX_CURR.            
+                        </li>
+                        <li>
+                        numeratorDenom – This element is either “N” for numerator or “D” for demonimator. You will typically be using the numerator for most of your work
+                        </li>
+                        <li>
+                        type – This element is not frequently used as you tend to combine DSD and TA results. 
+                        </li>
+                        <li>
+                        disaggregate – This element comes in a number of shapes and sizes, varying indicator to indicator. Indicators can be reported as the full numerator or can be broken out into various parts such as by age, sex, result and combinations of those. It is also important to note that these disaggregates can also have aggregates such has “<15” and “15+”  
+                        </li>
+                        <li>
+                        resultTarget – This element indicates whether the data element is result or target. “TARGET” is written into the data element name if it’s a target; the absence “TARGET” indicates the data element is a result. 
+                        </li>
+                        <li>
+                        label – This element describes the indicator more clearly rather than just using the abbreviations. This element will be rarely used in typical analysis.
+                        </li>
+                        <li>
+                        categoryOptionComboName – This element is tied to the disaggregate. If there is no disaggregate, i.e. it’s just the numerator entered, the categoryOptionComboName would be “default”. If the disaggregate were Age/Sex, the categoryOptionComboName could look like “(Female, 5-14)”.It is important to note that the order of the categoryOptionComboName can vary across and within indicators, so you can see “(Female, 5-14)” or “(1-4, Female)”.
+                        </li>
+                        <li>
+                        value – This element provides the target or result value.
+                        </li>
+                    </ul>
+                    With the relevant indicators loaded into Excel, you should set up the data as a Table. To do so, you will need to highlight all the rows and columns containing data (Ctrl + *) and navigate on the top ribbon to Insert > Tables > Table Structuring. After setting up the table, you should navigate in the ribbon to Design > Properties > Table Name, and change it to “data”.
+                     <br> <br> 
+                    Figure 3: Changing table name
+                    <img class = "img-responsive" src="img/RenameTable.png">
+                    <br> <br>
+                    The benefit of setting up your raw data as a table and renaming it comes from the ability to use structured references. This adjustment is incredibly important because it allows you to more easily reference your data in a formula and improves the readability of your formula for others. 
+                     <br> <br> 
+                    Figure 4: Utilizing a structured reference
+                    <img class = "img-responsive" src="img/StructuredRef.png">
+                    <br> <br>
+                    Now that you have your data structured using a table, you have the proper base for starting to build your tool.
+                    <br> <br> 
+                    </p>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </section>
+
+<!-- Excel Setup -->
+    <section id="excelsetup" class="excelsetup">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 text-justify">
+                    <h3>EXCEL SETUP</h3>
+                    <p class="lead">
+                    The table that you have setup in Excel will form the basis for the rest of your file.  You can call this tab “Raw Data.” In addition to the raw data tab, there are a few other useful tabs to include. 
+                     <br> <br> 
+                    The first additional tab to include is the “Info” tab. This tab will include key information about the data being displayed, including any caveats or notes your audience should know about the data. Equally important, you should always include the date and location of your data pull so your audience will know  how recent the data is and more easily identify if there are known issues with the dataset. This tab is also a good place to place the ICPI logo if it is not displayed elsewhere and to provide any relevant contact information for the tool developers.  
+                     <br> <br> 
+                    Another good tab to include in the file is a reference tab, which can be called “rs” for Rosetta Stone. The purpose of this tab is to provide (a) a crosswalk between items, e.g. regions and countries, (b) the location of all lists to be used in dropdowns, or (c) any other relevant reference material called upon by the tool or necessary for the developer. 
+                     <br> <br> 
+                    The last necessary tab or tabs to include provide your views of the data. The next section discusses how to use formulas and other key features to aggregate the data and tell a story via visuals or tables. 
+                     <br> <br> 
+                    </p>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </section>
+
+
+
+
+
+
+
+
     <!-- Callout -->
     <aside class="callout">
         <div class="text-vertical-center">
@@ -303,7 +410,7 @@
                             <a href="https://twitter.com/PEPFAR"><i class="fa fa-twitter fa-fw fa-3x"></i></a>
                         </li>
                         <li>
-                            <a href="https://pepfar.gov"><i class="fa fa-dribbble fa-fw fa-3x"></i></a>
+                            <a href="www.pepfar.gov"><i class="fa fa-dribbble fa-fw fa-3x"></i></a>
                         </li>
                     </ul>
                     <hr class="small">
