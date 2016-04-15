@@ -113,7 +113,7 @@ hr.small {
 }
 
 .sidebar-nav > .sidebar-brand {
-    height: 55px;
+    height: 50px;
     font-size: 18px;
     line-height: 55px;
 }
@@ -162,11 +162,18 @@ hr.small {
     -o-background-size: cover;
 }
 
-/* About */
+/* Standard*/
 
-.about {
+.standard {
     padding: 50px 0;
 }
+
+/* BREAK */
+
+.break {
+    padding: 50px 0 0 0;
+}
+
 
 /* Services */
 
